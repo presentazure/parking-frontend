@@ -13,8 +13,13 @@ export default {
   },
   actions: {
     async ENSURE({commit}) {
-      const {data} = await this.$axios.$get(`${process.env.API_URL}/garages`)
-      commit('SET_GARAGES', data)
+      try {
+        const {data} = await this.$axios.$get(`/garages`)
+        commit('SET_GARAGES', data)
+      } catch (error) {
+        console.error('Error fetching garages:', error)
+        commit('SET_GARAGES', [])
+      }
     }
   },
   getters: {
